@@ -246,6 +246,59 @@ template <> struct std::formatter<dzl::ins::MoveToPsr> : std::formatter<std::str
 	}
 };
 
+// Multiply
+template <> struct std::formatter<dzl::ins::Multiply> : std::formatter<std::string>
+{
+	[[nodiscard]] constexpr auto format(const dzl::ins::Multiply t_instruction,
+										std::format_context& t_context) const
+	{
+		const auto [operation, condition, destination, accumulator, first, second,
+					set_condition_codes, accumulate, is_long, is_unsigned]{t_instruction};
+
+		if (is_long)
+		{
+			const auto formatted{
+				std::format("{}{}{}{} {}, {}, {}, {}",			  //
+							is_unsigned ? 'u' : 's',		  // Unsigned
+							accumulate ? "mlal" : "mull",	  // Op code (accumulate)
+							condition,						  // Condition
+							set_condition_codes ? 's' : '\0', // Set condition codes
+							destination,					  // Destination (high bytes)
+							accumulator,					  // Destination (low bytes)
+							first,							  // First
+							second							  // Second
+							)};
+
+			return std::formatter<std::string>::format(formatted, t_context);
+		}
+
+		if (accumulate)
+		{
+			const auto formatted{
+				std::format("mla{}{} {}, {}, {}, {}",		  //
+							condition,						  // Condition
+							set_condition_codes ? 's' : '\0', // Set condition codes
+							destination,					  // Destination (low bytes)
+							first,							  // First
+							second,							  // Second
+							accumulator						  // Accumulator
+							)};
+
+			return std::formatter<std::string>::format(formatted, t_context);
+		}
+
+		const auto formatted{std::format("mul{}{} {}, {}, {}",			   //
+										 condition,						   // Condition
+										 set_condition_codes ? 's' : '\0', // Set condition codes
+										 destination, // Destination (low bytes)
+										 first,		  // First
+										 second		  // Second
+										 )};
+
+		return std::formatter<std::string>::format(formatted, t_context);
+	}
+};
+
 // Instruction
 template <> struct std::formatter<dzl::ins::Instruction> : std::formatter<std::string>
 {
@@ -273,8 +326,11 @@ template <> struct std::formatter<dzl::ins::Instruction> : std::formatter<std::s
 		case dzl::ins::Operation::MoveToPsr:
 			return std::formatter<std::string>::format(
 				std::format("{}", t_instruction.get<dzl::ins::MoveToPsr>()), t_context);
-				
+
 		case dzl::ins::Operation::Multiply:
+			return std::formatter<std::string>::format(
+				std::format("{}", t_instruction.get<dzl::ins::Multiply>()), t_context);
+
 		case dzl::ins::Operation::Load:
 		case dzl::ins::Operation::Store:
 		case dzl::ins::Operation::LoadMultiple:

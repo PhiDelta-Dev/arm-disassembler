@@ -85,6 +85,21 @@ export using MoveToPsr = PackedStruct<InstructionBits,					  //
 									  PackedMember<ShiftOperand, 32, 16>, // Source
 									  PackedMember<bool, 48, 1>			  // Flags only
 									  >;
+
+export using Multiply =
+	PackedStruct<InstructionBits,				//
+				 PackedMember<Operation, 0, 8>, // Operation
+				 PackedMember<Condition, 8, 4>, // Condition
+												//
+				 PackedMember<Register, 16, 4>, // Destination (high bytes)
+				 PackedMember<Register, 24, 4>, // Accumulator / destination low bytes
+				 PackedMember<Register, 32, 4>, // First
+				 PackedMember<Register, 48, 4>, // Second
+				 PackedMember<bool, 56, 1>,		// Set condition codes
+				 PackedMember<bool, 57, 1>,		// Accumulate
+				 PackedMember<bool, 58, 1>,		// Long
+				 PackedMember<bool, 59, 1>		// Unsigned
+				 >;
 // NOLINTEND(*-magic-numbers)
 
 template <typename Type>
@@ -93,7 +108,8 @@ concept InstructionType =					 //
 	std::same_as<Type, Branch> ||			 //
 	std::same_as<Type, DataProcessing> ||	 //
 	std::same_as<Type, MoveFromPsr> ||		 //
-	std::same_as<Type, MoveToPsr>;			 //
+	std::same_as<Type, MoveToPsr> ||		 //
+	std::same_as<Type, Multiply>;			 //
 
 export class Instruction
 {

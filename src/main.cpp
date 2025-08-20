@@ -21,8 +21,9 @@ auto main(const int t_argument_count, const char** t_arguments) -> int
 												 static_cast<std::size_t>(t_argument_count));
 
 	constexpr static dzl::ins::Instruction instruction{
-		dzl::ins::MoveToPsr(
-			dzl::ins::Operation::MoveToPsr, dzl::Condition::Al, dzl::Register::Spsr, dzl::ShiftOperand(0xD5_u8, 0_sh), false)
+		dzl::ins::Multiply(dzl::ins::Operation::Multiply, dzl::Condition::Al, dzl::Register::R1,
+						   dzl::Register::R2, dzl::Register::R3, dzl::Register::R4, false, false,
+						   false, false)
 			.to_underlying()};
 
 	std::println("{}", instruction);
