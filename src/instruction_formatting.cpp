@@ -258,7 +258,7 @@ template <> struct std::formatter<dzl::ins::Multiply> : std::formatter<std::stri
 		if (is_long)
 		{
 			const auto formatted{
-				std::format("{}{}{}{} {}, {}, {}, {}",			  //
+				std::format("{}{}{}{} {}, {}, {}, {}",		  //
 							is_unsigned ? 'u' : 's',		  // Unsigned
 							accumulate ? "mlal" : "mull",	  // Op code (accumulate)
 							condition,						  // Condition
@@ -278,7 +278,7 @@ template <> struct std::formatter<dzl::ins::Multiply> : std::formatter<std::stri
 				std::format("mla{}{} {}, {}, {}, {}",		  //
 							condition,						  // Condition
 							set_condition_codes ? 's' : '\0', // Set condition codes
-							destination,					  // Destination (low bytes)
+							destination,					  // Destination
 							first,							  // First
 							second,							  // Second
 							accumulator						  // Accumulator
@@ -290,9 +290,9 @@ template <> struct std::formatter<dzl::ins::Multiply> : std::formatter<std::stri
 		const auto formatted{std::format("mul{}{} {}, {}, {}",			   //
 										 condition,						   // Condition
 										 set_condition_codes ? 's' : '\0', // Set condition codes
-										 destination, // Destination (low bytes)
-										 first,		  // First
-										 second		  // Second
+										 destination,					   // Destination
+										 first,							   // First
+										 second							   // Second
 										 )};
 
 		return std::formatter<std::string>::format(formatted, t_context);
