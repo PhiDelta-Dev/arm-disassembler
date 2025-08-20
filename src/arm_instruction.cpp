@@ -67,7 +67,7 @@ constexpr std::array format_masks{
 			   .required_bits = 0b0000'01'000000'0000'0000'000000000000_u32	   }
 };
 
-// Require that the masks are sorted
+// Require that the masks be sorted
 static_assert(std::ranges::is_sorted(format_masks,
 									 [](const FormatMask t_first, const FormatMask t_second)
 									 {

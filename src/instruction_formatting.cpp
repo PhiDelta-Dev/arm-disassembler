@@ -257,18 +257,23 @@ template <> struct std::formatter<dzl::ins::Instruction> : std::formatter<std::s
 		case dzl::ins::Operation::BranchAndExchange:
 			return std::formatter<std::string>::format(
 				std::format("{}", t_instruction.get<dzl::ins::BranchAndExchange>()), t_context);
+
 		case dzl::ins::Operation::Branch:
 			return std::formatter<std::string>::format(
 				std::format("{}", t_instruction.get<dzl::ins::Branch>()), t_context);
+
 		case dzl::ins::Operation::DataProcessing:
 			return std::formatter<std::string>::format(
 				std::format("{}", t_instruction.get<dzl::ins::DataProcessing>()), t_context);
+
 		case dzl::ins::Operation::MoveFromPsr:
 			return std::formatter<std::string>::format(
 				std::format("{}", t_instruction.get<dzl::ins::MoveFromPsr>()), t_context);
+
 		case dzl::ins::Operation::MoveToPsr:
 			return std::formatter<std::string>::format(
 				std::format("{}", t_instruction.get<dzl::ins::MoveToPsr>()), t_context);
+				
 		case dzl::ins::Operation::Multiply:
 		case dzl::ins::Operation::Load:
 		case dzl::ins::Operation::Store:
